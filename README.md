@@ -12,15 +12,17 @@ Roughly a decade of backend engineering, including post-trade and fintech system
 
 Most RAG examples are notebooks. Atlas is what the same ideas look like when they have to survive a code review, a CI pipeline, and a corpus that doesn't fit in memory.
 
-**Ingestion** — PDF/DOCX/TXT parsing, token-aware chunking with page-level provenance, async ingestion with `AFTER_COMMIT` semantics, configurable footer-noise stripping. Test corpus: 29 EU digital-regulation documents from EUR-Lex, 3,769 chunks.
+**Measured, not vibes** — A 30-question golden dataset with page-level scoring, run by a Python harness (Typer CLI) against the live API: vector retrieval hits the right document **96%** of the time, the assistant abstained on **3/3** out-of-scope questions including deceptively adjacent traps, and a full eval run costs **~$0.11**. Baseline committed, regressions gate in CI, and the honest findings (hybrid currently trails pure vector — we know why) are public roadmap issues with the numbers they must beat.
 
-**Retrieval** — Hybrid search over pgvector (HNSW, cosine) fusing vector and keyword results via RRF, with per-result `vectorRank` / `keywordRank` so ranking decisions stay auditable. Metadata filtering, an explicit citation contract, and a golden question set for regression checks.
+**Ingestion** — PDF/DOCX/TXT parsing, token-aware chunking with page-level provenance, async pipeline with `AFTER_COMMIT` semantics, retryable failures, configurable footer-noise stripping. Corpus: 29 EU digital-regulation documents from EUR-Lex, 3,769 chunks.
 
-**Chat** — Token-budgeted context assembly, prompt templates enforcing grounding, abstention, and citation rules, both synchronous and SSE streaming endpoints, per-request cost estimation, React UI with inline citation chips.
+**Retrieval** — Hybrid search over pgvector (HNSW, cosine) fusing vector and keyword via RRF, with per-result `vectorRank`/`keywordRank` so ranking decisions stay auditable. Metadata filtering and an explicit citation contract.
 
-Java 21 (virtual threads) · Spring Boot 3.5 · Spring AI · PostgreSQL 16 + pgvector · Flyway · Testcontainers · Vite/React/TypeScript · 225 tests green in CI · 7 ADRs documenting the decisions
+**Chat** — Token-budgeted context assembly, prompt templates enforcing grounding, citation, and abstention rules, sync + SSE streaming, per-request cost logging, React UI with clickable citation chips that resolve to the exact source passage.
 
-*In progress:* a Python evaluation harness (Typer CLI) for faithfulness, answer relevance, and context precision, so retrieval changes can be measured rather than argued about.
+**Operations** — Production compose profile, tested backup/restore runbook, and an `atlas-eval doctor` diagnostics CLI whose checklist is the project's own debugging history.
+
+*Java 21 (virtual threads) · Spring Boot 3.5 · Spring AI · PostgreSQL 16 + pgvector · Flyway · Testcontainers · Vite/React/TypeScript · Python 3.12 · 300+ tests across three CI lanes · 7 ADRs · 10-issue measured roadmap*
 
 ---
 

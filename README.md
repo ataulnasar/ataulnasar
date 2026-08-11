@@ -3,6 +3,7 @@
 Senior Java engineer in Stockholm. I build production retrieval-augmented generation systems — the unglamorous parts: ingestion pipelines, hybrid retrieval, grounding and abstention rules, citation contracts, and the evaluation harnesses that tell you whether any of it actually works.
 
 Roughly a decade of backend engineering, including post-trade and fintech systems at Nasdaq. Most of my recent AI work has been under NDA, so [**Atlas**](https://github.com/ataulnasar/atlas) exists to make it inspectable.
+#AI, #GenAI, #ML, #LLM, #RAG, #Java, #Python, #Claude, #Chatgpt, #gpt-4o-mini.
 
 ---
 
